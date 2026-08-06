@@ -24,7 +24,7 @@ public class EventNotificationListener {
     private static final String RADAR_EVENT = "RADAR_EVENT";
     private final ObjectMapper objectMapper;
 
-    @RabbitListener(queues = RADAR_EVENT)
+    @RabbitListener(queues = RADAR_EVENT, concurrency = "4")
     public void receiveMessage(Message message) {
         MessageProperties messageProperties = message.getMessageProperties();
 

@@ -1,0 +1,7 @@
+services:
+  eventsaver-setupdb:
+    container_name: ansible_eventsaver_setupdb
+    build:
+      context: .
+      dockerfile: ansible.Dockerfile
+    command: ansible-playbook -i inventory.ini playbooks/setup-db.yml
