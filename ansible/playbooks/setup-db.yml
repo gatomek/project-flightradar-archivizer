@@ -3,7 +3,7 @@
   vars_files:
     - vars/prod.yml
   hosts: castle
-  remote_user: gatomek
+  remote_user: "{{ remote_admin }}"
   tasks:
     - name: "Create database {{ app_name }}"
       become_user: postgres
