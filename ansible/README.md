@@ -2,7 +2,7 @@
 
 ## Ansible commands
 ```
-ansible-playbook -i inventory.ini playbooks/create-db.yml
+ansible-playbook -i inventory.ini playbooks/setup-db.yml
 ```
 
 ## sudo modification for ansible user
