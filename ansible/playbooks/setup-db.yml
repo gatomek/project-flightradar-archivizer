@@ -36,7 +36,6 @@
     - name: "Allow external connection for the db user {{ app_name }}"
       become: yes
       become_user: postgres
-      notify: restart postgres
       postgresql_pg_hba:
         dest: "/etc/postgresql/16/main/pg_hba.conf"
         contype: host
