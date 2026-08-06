@@ -22,6 +22,30 @@
         password: "{{ db_password }}"
         port: "{{ db_port }}"
 
+    - name: "Create schema {{ app_name }}"
+      become_user: postgres
+      become: yes
+      postgresql_schema:
+        state: present
+        name: "{{ app_name }}"
+        owner: "{{ app_name }}"
+        login_password: "{{ db_password }}"
+        login_port: "{{ db_port }}"
+        login_db: "{{ app_name }}"
+        comment: 'Radar Event Saver schema'
+
+    - name: "Create schema liquibase"
+      become_user: postgres
+      become: yes
+      postgresql_schema:
+        state: present
+        name: liquibase
+        owner: "{{ app_name }}"
+        login_password: "{{ db_password }}"
+        login_port: "{{ db_port }}"
+        login_db: "{{ app_name }}"
+        comment: 'Liquibase schema'
+
     - name: "Grant db user {{ app_name }} access to app db {{ app_name }}"
       become_user: postgres
       become: yes
