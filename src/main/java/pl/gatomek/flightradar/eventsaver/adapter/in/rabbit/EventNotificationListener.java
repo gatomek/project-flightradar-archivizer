@@ -49,7 +49,8 @@ public class EventNotificationListener {
                             .map(Instant::ofEpochMilli)
                             .orElseGet(Instant::now);
 
-                    //todo: move event list generation to mapper, no loop over logs in this method
+                    //todo: move event list generation to mapper, no loop over logs in this method?
+                    //todo: can a log have a dedicated time correction to common file of logs?
                     List<Event> events = logs.stream()
                             .map(log -> ToEventMapper.INSTANCE.toEvent(log, timestamp))
                             .toList();
