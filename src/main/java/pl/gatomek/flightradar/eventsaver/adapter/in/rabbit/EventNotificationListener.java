@@ -6,7 +6,11 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-import pl.gatomek.flightradar.eventsaver.application.domain.model.AircraftNotification;
+import pl.gatomek.flightradar.eventsaver.adapter.in.rabbit.mapper.ToEventMapper;
+import pl.gatomek.flightradar.eventsaver.adapter.in.rabbit.model.AircraftLog;
+import pl.gatomek.flightradar.eventsaver.adapter.in.rabbit.model.AircraftNotification;
+import pl.gatomek.flightradar.eventsaver.application.domain.model.Event;
+import pl.gatomek.flightradar.eventsaver.application.port.in.SaveEventPort;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.ByteArrayInputStream;
@@ -14,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 @RequiredArgsConstructor
@@ -22,6 +28,7 @@ import java.util.zip.GZIPInputStream;
 public class EventNotificationListener {
     private static final String GZIP = "gzip";
     private static final String RADAR_EVENT = "RADAR_EVENT";
+    private final SaveEventPort saveEventPort;
     private final ObjectMapper objectMapper;
 
     @RabbitListener(queues = RADAR_EVENT, concurrency = "4")
@@ -32,7 +39,19 @@ public class EventNotificationListener {
             String contentEncoding = messageProperties.getContentEncoding();
             if (GZIP.equals(contentEncoding)) {
                 AircraftNotification an = fromGZip(message.getBody());
-                log.info("Event received: {}", Instant.ofEpochMilli(an.getTimestamp()));
+
+                Long ctime = an.getCtime();
+                Instant timestamp = ctime != null ? Instant.ofEpochMilli(ctime) : Instant.now();
+
+                List<Event> events = new ArrayList<>(an.getAircraftLogs().size());
+
+                for (AircraftLog log : an.getAircraftLogs()) {
+                    Event e = ToEventMapper.INSTANCE.toEvent(log);
+                    e.setTimestamp(timestamp);
+                    events.add(e);
+                }
+
+                saveEventPort.saveEvents(events);
                 return;
             }
 

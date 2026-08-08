@@ -1,4 +1,4 @@
-package pl.gatomek.flightradar.eventsaver.adapter.out.eventrepo.model;
+package pl.gatomek.flightradar.eventsaver.adapter.out.eventdatabase.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +17,7 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name = "event", schema = "radar_eventsaver")
-public class AircraftEventEntity {
+public class EventEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "event_seq")
     @SequenceGenerator(name = "event_seq", sequenceName = "event_id_seq", allocationSize = 1, schema = "radar_eventsaver")

@@ -1,4 +1,4 @@
-package pl.gatomek.flightradar.eventsaver.application.domain.model;
+package pl.gatomek.flightradar.eventsaver.adapter.in.rabbit.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -15,11 +15,11 @@ public class AircraftNotification {
     private String status;
 
     @JsonProperty("now")
-    private long timestamp;
+    private Long timestamp;
 
-    private int total;
+    private Integer total;
 
-    private long ctime;
+    private Long ctime;
 
-    private long ptime;
+    private Long ptime;
 }

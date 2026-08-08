@@ -1,4 +1,4 @@
-package pl.gatomek.flightradar.eventsaver.adapter.in.rabbit;
+package pl.gatomek.flightradar.eventsaver.adapter.in.rabbit.conf;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

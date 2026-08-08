@@ -1,0 +1,24 @@
+- name: "Allow remote access for user {{ app_name }}"
+  gather_facts: no
+  vars_files:
+    - vars/prod.yml
+  hosts: castle
+  remote_user: "{{ remote_admin }}"
+  tasks:
+    - name: "Allow remote access for the user {{ app_name }}"
+      become: yes
+      become_user: postgres
+      postgresql_pg_hba:
+        dest: "/etc/postgresql/16/main/pg_hba.conf"
+        contype: host
+        databases: "{{ app_name }}"
+        method: scram-sha-256
+        users: "{{ app_name }}"
+        create: true
+        address: 0.0.0.0/0
+
+    - name: "Reload service postgresql"
+      become: yes
+      systemd:
+        name: postgresql
+        state: reloaded
