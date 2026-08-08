@@ -31,12 +31,14 @@ public class EventNotificationListener {
     private final SaveEventPort saveEventPort;
     private final ObjectMapper objectMapper;
 
+    //todo: in case of error redirect message to dlq
     @RabbitListener(queues = RADAR_EVENT, concurrency = "4")
     public void receiveMessage(Message message) {
         MessageProperties messageProperties = message.getMessageProperties();
 
         try {
             String contentEncoding = messageProperties.getContentEncoding();
+            //todo: add support for no content encoding
             if (GZIP.equals(contentEncoding)) {
                 AircraftNotification an = fromGZip(message.getBody());
 
@@ -47,6 +49,7 @@ public class EventNotificationListener {
                             .map(Instant::ofEpochMilli)
                             .orElseGet(Instant::now);
 
+                    //todo: move event list generation to mapper, no loop over logs in this method
                     List<Event> events = logs.stream()
                             .map(log -> ToEventMapper.INSTANCE.toEvent(log, timestamp))
                             .toList();
