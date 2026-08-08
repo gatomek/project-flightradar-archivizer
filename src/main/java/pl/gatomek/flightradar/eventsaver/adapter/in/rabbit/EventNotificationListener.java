@@ -18,8 +18,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.zip.GZIPInputStream;
 
 @RequiredArgsConstructor
@@ -40,19 +40,20 @@ public class EventNotificationListener {
             if (GZIP.equals(contentEncoding)) {
                 AircraftNotification an = fromGZip(message.getBody());
 
-                Long ctime = an.getCtime();
-                Instant timestamp = ctime != null ? Instant.ofEpochMilli(ctime) : Instant.now();
+                List<AircraftLog> logs = an.getAircraftLogs();
+                if (logs != null && !logs.isEmpty()) {
 
-                List<Event> events = new ArrayList<>(an.getAircraftLogs().size());
+                    Instant timestamp = Optional.ofNullable(an.getCtime())
+                            .map(Instant::ofEpochMilli)
+                            .orElseGet(Instant::now);
 
-                for (AircraftLog log : an.getAircraftLogs()) {
-                    Event e = ToEventMapper.INSTANCE.toEvent(log);
-                    e.setTimestamp(timestamp);
-                    events.add(e);
+                    List<Event> events = logs.stream()
+                            .map(log -> ToEventMapper.INSTANCE.toEvent(log, timestamp))
+                            .toList();
+
+                    saveEventPort.saveEvents(events);
+                    return;
                 }
-
-                saveEventPort.saveEvents(events);
-                return;
             }
 
             throw new UnsupportedOperationException("Content encoding not supported: "
