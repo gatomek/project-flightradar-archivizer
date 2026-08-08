@@ -23,7 +23,7 @@ docker --context docker-on-tower compose --file remote-ansible.yml run --rm --bu
 ```
 
 
-### Forbit remote access to DB
+### Forbid remote access to DB
 
 ```sh
 docker --context docker-on-tower compose --file remote-ansible.yml run --rm --build eventsaver-forbidaccessdb
