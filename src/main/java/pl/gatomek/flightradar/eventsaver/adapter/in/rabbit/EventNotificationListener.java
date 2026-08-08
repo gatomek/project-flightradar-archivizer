@@ -43,21 +43,22 @@ public class EventNotificationListener {
                 AircraftNotification an = fromGZip(message.getBody());
 
                 List<AircraftLog> logs = an.getAircraftLogs();
-                if (logs != null && !logs.isEmpty()) {
-
-                    Instant timestamp = Optional.ofNullable(an.getCtime())
-                            .map(Instant::ofEpochMilli)
-                            .orElseGet(Instant::now);
-
-                    //todo: move event list generation to mapper, no loop over logs in this method?
-                    //todo: can a log have a dedicated time correction to common file of logs?
-                    List<Event> events = logs.stream()
-                            .map(log -> ToEventMapper.INSTANCE.toEvent(log, timestamp))
-                            .toList();
-
-                    saveEventPort.saveEvents(events);
+                if (logs == null || logs.isEmpty()) {
                     return;
                 }
+
+                Instant timestamp = Optional.ofNullable(an.getCtime())
+                        .map(Instant::ofEpochMilli)
+                        .orElseGet(Instant::now);
+
+                //todo: move event list generation to mapper, no loop over logs in this method?
+                //todo: can a log have a dedicated time correction to common file of logs?
+                List<Event> events = logs.stream()
+                        .map(log -> ToEventMapper.INSTANCE.toEvent(log, timestamp))
+                        .toList();
+
+                saveEventPort.saveEvents(events);
+                return;
             }
 
             throw new UnsupportedOperationException("Content encoding not supported: "
