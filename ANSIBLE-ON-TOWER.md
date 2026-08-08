@@ -16,3 +16,16 @@ docker context create docker-on-tower --docker host=tcp://tower:2375
 docker --context docker-on-tower compose --file remote-ansible.yml run --rm --build eventsaver-setupdb
 ```
 
+### Allow remote access to DB
+
+```sh
+docker --context docker-on-tower compose --file remote-ansible.yml run --rm --build eventsaver-allowaccessdb
+```
+
+
+### Forbid remote access to DB
+
+```sh
+docker --context docker-on-tower compose --file remote-ansible.yml run --rm --build eventsaver-forbidaccessdb
+```
+

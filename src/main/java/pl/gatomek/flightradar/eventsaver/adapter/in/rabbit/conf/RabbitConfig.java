@@ -1,4 +1,4 @@
-package pl.gatomek.flightradar.eventsaver.adapter.in.rabbit;
+package pl.gatomek.flightradar.eventsaver.adapter.in.rabbit.conf;
 
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

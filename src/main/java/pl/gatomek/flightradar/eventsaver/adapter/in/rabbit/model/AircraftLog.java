@@ -1,4 +1,4 @@
-package pl.gatomek.flightradar.eventsaver.application.domain.model;
+package pl.gatomek.flightradar.eventsaver.adapter.in.rabbit.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
