@@ -15,6 +15,8 @@ public class SaveEventService implements SaveEventPort {
 
     @Override
     public void saveEvents(List<Event> events) {
-        persistEventPort.persistEvents(events);
+        for (Event event : events) {
+            persistEventPort.persistSingleEvent(event);
+        }
     }
 }
