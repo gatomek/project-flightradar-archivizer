@@ -1,11 +1,6 @@
-.github/
-.idea/
-.mvn/
-.git/
-DEPLOYMENT/
-http/
-src/
+*
 
-saver.iml
-mvnw
-mvnw.cmd
+!ansible
+!env
+!target/
+!target/*.jar
