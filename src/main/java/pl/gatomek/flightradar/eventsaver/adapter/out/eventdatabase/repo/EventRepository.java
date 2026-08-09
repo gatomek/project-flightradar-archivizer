@@ -6,10 +6,21 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.gatomek.flightradar.eventsaver.adapter.out.eventdatabase.model.EventEntity;
 
+import java.time.Instant;
 import java.util.List;
 
 @Repository
 public interface EventRepository extends JpaRepository<EventEntity, Long> {
+
+    // @formatter:off
+    @Query( """
+        select al from EventEntity al
+        where al.icao = :icao and al.timestamp = :timestamp
+        limit 1
+        """
+    )
+    // @formatter:on
+    EventEntity findEventByIcaoAndTimestamp(@Param("icao") String icao, @Param("timestamp") Instant timestamp);
 
     // @formatter:off
     @Query( """

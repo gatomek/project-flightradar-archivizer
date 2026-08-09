@@ -21,6 +21,11 @@ public class EventDataBase implements PersistEventPort {
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void persistSingleEvent(Event event) {
+        EventEntity found = aircraftEventRepository.findEventByIcaoAndTimestamp(event.getIcao(), event.getTimestamp());
+        if( found != null) {
+            return;
+        }
+
         EventEntity eventEntity = ToEntityMapper.INSTANCE.toEntity(event);
         aircraftEventRepository.saveAndFlush(eventEntity);
     }
