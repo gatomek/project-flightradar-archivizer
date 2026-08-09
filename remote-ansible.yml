@@ -3,23 +3,23 @@ services:
     container_name: ansible_eventsaver_setupdb
     build:
       context: .
-      dockerfile: ansible.Dockerfile
+      dockerfile: Dockerfile.ansible
     command: ansible-playbook -i inventory.ini playbooks/setup-db.yml
   eventsaver-allowaccessdb:
     container_name: ansible_eventsaver_allowaccessdb
     build:
       context: .
-      dockerfile: ansible.Dockerfile
+      dockerfile: Dockerfile.ansible
     command: ansible-playbook -i inventory.ini playbooks/allow-access-db.yml
   eventsaver-forbidaccessdb:
     container_name: ansible_eventsaver_forbidaccessdb
     build:
       context: .
-      dockerfile: ansible.Dockerfile
+      dockerfile: Dockerfile.ansible
     command: ansible-playbook -i inventory.ini playbooks/forbid-access-db.yml
   eventsaver-setup:
     container_name: ansible_eventsaver_setup
     build:
       context: .
-      dockerfile: ansible.Dockerfile
+      dockerfile: Dockerfile.ansible
     command: ansible-playbook -i inventory.ini playbooks/setup.yml
