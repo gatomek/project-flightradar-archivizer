@@ -17,3 +17,9 @@ services:
       context: .
       dockerfile: ansible.Dockerfile
     command: ansible-playbook -i inventory.ini playbooks/forbid-access-db.yml
+  eventsaver-setup:
+    container_name: ansible_eventsaver_setup
+    build:
+      context: .
+      dockerfile: ansible.Dockerfile
+    command: ansible-playbook -i inventory.ini playbooks/setup.yml

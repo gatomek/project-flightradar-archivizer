@@ -5,7 +5,6 @@
 DEPLOYMENT/
 http/
 src/
-target/
 
 saver.iml
 mvnw

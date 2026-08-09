@@ -29,3 +29,9 @@ docker --context docker-on-tower compose --file remote-ansible.yml run --rm --bu
 docker --context docker-on-tower compose --file remote-ansible.yml run --rm --build eventsaver-forbidaccessdb
 ```
 
+
+### Setup application on castle
+
+```sh
+docker --context docker-on-tower compose --file remote-ansible.yml run --rm --build eventsaver-setup
+```

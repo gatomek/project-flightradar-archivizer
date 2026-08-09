@@ -1,19 +1,19 @@
-- name: "Forbid remote access for user {{ app_name }}"
+- name: "Forbid remote access for user {{ db_name }}"
   gather_facts: no
   vars_files:
     - vars/prod.yml
   hosts: castle
   remote_user: "{{ remote_admin }}"
   tasks:
-    - name: "Forbid remote access for the user {{ app_name }}"
+    - name: "Forbid remote access for the user {{ db_name }}"
       become: yes
       become_user: postgres
       postgresql_pg_hba:
         dest: "/etc/postgresql/16/main/pg_hba.conf"
         contype: host
-        databases: "{{ app_name }}"
+        databases: "{{ db_name }}"
         method: scram-sha-256
-        users: "{{ app_name }}"
+        users: "{{ db_name }}"
         state: absent
         address: "{{ item }}"
       loop:
