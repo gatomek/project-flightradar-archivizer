@@ -37,4 +37,8 @@ public class AircraftLog implements Serializable {
 
     @JsonProperty("alt_baro")
     private String barometricAltitude;
+
+    public void setFlight(String flight) {
+        this.flight = flight == null ? null : flight.trim();
+    }
 }
