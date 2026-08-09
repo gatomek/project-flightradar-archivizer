@@ -2,5 +2,6 @@ remote_admin:
 ansible_become_pass:
 
 app_name:
+db_name:
 db_port:
 db_password:
