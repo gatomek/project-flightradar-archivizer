@@ -32,7 +32,7 @@ public class EventNotificationListener {
     private final ObjectMapper objectMapper;
 
     //todo: in case of error redirect message to dlq
-    @RabbitListener(queues = RADAR_EVENT, concurrency = "4")
+    @RabbitListener(queues = RADAR_EVENT, concurrency = "1")
     public void receiveMessage(Message message) {
         MessageProperties messageProperties = message.getMessageProperties();
 
