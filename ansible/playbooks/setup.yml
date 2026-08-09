@@ -15,29 +15,37 @@
         create_home: no
         state: present
 
-    - name: "Create folder app in {{app_name}} /opt/{{ app_name }}/bin folder"
+    - name: "Create folder app /opt/{{ app_name }} folder"
       file:
         path: "/opt/{{app_name}}/bin"
         state: directory
         owner: "{{app_name}}"
         group: "{{app_name}}"
-        mode: "0600"
+        mode: "0755"
 
-    - name: "Copy application to /opt/{{app_name}}/bin folder"
+    - name: "Create folder /opt/{{ app_name }}/bin folder"
+      file:
+        path: "/opt/{{app_name}}/bin"
+        state: directory
+        owner: "{{app_name}}"
+        group: "{{app_name}}"
+        mode: "0755"
+
+    - name: "Copy application to /opt/{{ app_name }}/bin folder"
       copy:
         src: "../../target/{{app_name}}.jar"
         dest: "/opt/{{app_name}}/bin/{{app_name}}.jar"
         owner: "{{app_name}}"
         group: "{{app_name}}"
-        mode: "0600"
+        mode: "0644"
 
-    - name: "Create folder conf in {{app_name}} /opt/{{ app_name }}/conf folder"
+    - name: "Create folder /opt/{{ app_name }}/conf folder"
       file:
         path: "/opt/{{app_name}}/conf"
         state: directory
         owner: "{{app_name}}"
         group: "{{app_name}}"
-        mode: "0600"
+        mode: "0750"
 
     - name: "Copy prod.env to /opt/{{app_name}}/conf folder"
       copy:

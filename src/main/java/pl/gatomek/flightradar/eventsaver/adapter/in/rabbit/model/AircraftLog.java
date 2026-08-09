@@ -11,8 +11,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,15 +29,6 @@ public class AircraftLog implements Serializable {
     @JsonProperty("flight")
     private String flight;
 
-    @JsonProperty("r")
-    private String registerNumber;
-
-    @JsonProperty("t")
-    private String type;
-
-    @JsonProperty("desc")
-    private String desc;
-
     @JsonProperty("lat")
     private BigDecimal latitude;
 
@@ -48,42 +37,4 @@ public class AircraftLog implements Serializable {
 
     @JsonProperty("alt_baro")
     private String barometricAltitude;
-
-    @JsonProperty("alt_geom")
-    private String geometricAltitude;
-
-    @JsonProperty("mach")
-    private BigDecimal mach;
-
-    @JsonProperty("category")
-    private String emitterCategory;
-
-    @JsonProperty("emergency")
-    private String emergency;
-
-    @JsonProperty("dbFlags")
-    private Integer dbFlags;
-
-    @JsonProperty("messages")
-    private Integer messages;
-
-    @JsonProperty("mag_heading")
-    private BigDecimal magneticHeading;
-
-    @JsonProperty("true_heading")
-    private BigDecimal trueHeading;
-
-    @JsonProperty("nav_modes")
-    private List<String> navModes;
-
-    @JsonProperty("squawk")
-    private String squawk;
-
-    @JsonProperty("gs")
-    private String groundSpeed;
-
-
-    public void setFlight(String flight) {
-        this.flight = Optional.ofNullable(flight).map(String::trim).orElse(null);
-    }
 }
