@@ -27,13 +27,7 @@
             <column name="longitude" type="numeric(9,6)">
                 <constraints nullable="true"/>
             </column>
-            <column name="description" type="varchar2(64)">
-                <constraints nullable="true"/>
-            </column>
             <column name="alt_baro" type="varchar2(16)">
-                <constraints nullable="true"/>
-            </column>
-            <column name="type" type="varchar2(32)">
                 <constraints nullable="true"/>
             </column>
         </createTable>
@@ -45,6 +39,20 @@
         <createIndex tableName="event" indexName="event_icao_idx" schemaName="radar_eventsaver">
             <column name="icao"/>
         </createIndex>
+
+        <createIndex tableName="event" indexName="event_timestamp_icao_idx" schemaName="radar_eventsaver" unique="true">
+            <column name="timestamp"/>
+            <column name="icao"/>
+        </createIndex>
+
+        <setTableRemarks tableName="event" schemaName="radar_eventsaver" remarks="Event table" />
+
+        <setColumnRemarks schemaName="radar_eventsaver" tableName="event" columnName="timestamp"  remarks="Event time" />
+        <setColumnRemarks schemaName="radar_eventsaver" tableName="event" columnName="icao" remarks="ICAO code" />
+        <setColumnRemarks schemaName="radar_eventsaver" tableName="event" columnName="flight" remarks="Flight code" />
+        <setColumnRemarks schemaName="radar_eventsaver" tableName="event" columnName="latitude" remarks="Latitude" />
+        <setColumnRemarks schemaName="radar_eventsaver" tableName="event" columnName="longitude" remarks="Longitude" />
+        <setColumnRemarks schemaName="radar_eventsaver" tableName="event" columnName="alt_baro" remarks="Barometric Altitude" />
 
     </changeSet>
 </databaseChangeLog>

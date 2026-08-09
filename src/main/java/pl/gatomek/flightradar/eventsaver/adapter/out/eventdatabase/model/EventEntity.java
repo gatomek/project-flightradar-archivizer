@@ -25,10 +25,10 @@ public class EventEntity {
 
     private Instant timestamp;
 
-    @Column(name = "icao", length = 20, nullable = false)
+    @Column(name = "icao", length = 16, nullable = false)
     private String icao;
 
-    @Column(name = "flight", length = 20)
+    @Column(name = "flight", length = 32)
     private String flight;
 
     @Column(name = "latitude", precision = 9, scale = 6)
@@ -37,12 +37,6 @@ public class EventEntity {
     @Column(name = "longitude", precision = 9, scale = 6)
     private BigDecimal longitude;
 
-    @Column(name = "description")
-    private String desc;
-
-    @Column(name = "alt_baro")
+    @Column(name = "alt_baro", length = 16)
     private String barometricAltitude;
-
-    @Column(name = "type")
-    private String type;
 }
