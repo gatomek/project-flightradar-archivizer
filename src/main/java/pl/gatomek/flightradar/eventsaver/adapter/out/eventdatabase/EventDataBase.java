@@ -1,7 +1,6 @@
 package pl.gatomek.flightradar.eventsaver.adapter.out.eventdatabase;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,12 +8,11 @@ import pl.gatomek.flightradar.eventsaver.adapter.out.eventdatabase.mapper.ToEnti
 import pl.gatomek.flightradar.eventsaver.adapter.out.eventdatabase.model.EventEntity;
 import pl.gatomek.flightradar.eventsaver.adapter.out.eventdatabase.repo.EventRepository;
 import pl.gatomek.flightradar.eventsaver.application.domain.model.Event;
-import pl.gatomek.flightradar.eventsaver.application.port.out.PersistEventPort;
+import pl.gatomek.flightradar.eventsaver.application.port.out.PersistEventUseCase;
 
-@Slf4j
 @RequiredArgsConstructor
 @Component
-public class EventDataBase implements PersistEventPort {
+public class EventDataBase implements PersistEventUseCase {
 
     private final EventRepository aircraftEventRepository;
 
