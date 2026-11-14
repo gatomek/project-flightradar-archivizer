@@ -5,22 +5,25 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import pl.gatomek.flightradar.eventsaver.application.domain.model.Event;
-import pl.gatomek.flightradar.eventsaver.application.port.in.SaveEventPort;
-import pl.gatomek.flightradar.eventsaver.application.port.out.PersistEventPort;
+import pl.gatomek.flightradar.eventsaver.application.port.in.SaveEventUseCase;
+import pl.gatomek.flightradar.eventsaver.application.port.out.IcaoNotificationUseCase;
+import pl.gatomek.flightradar.eventsaver.application.port.out.PersistEventUseCase;
 
 import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class SaveEventService implements SaveEventPort {
-    private final PersistEventPort persistEventPort;
+public class SaveEventService implements SaveEventUseCase {
+    private final PersistEventUseCase persistEventUseCase;
+    private final IcaoNotificationUseCase icaoNotificationUseCase;
 
     @Override
     public void saveEvents(List<Event> events) {
         for (Event event : events) {
             try {
-                persistEventPort.persistSingleEvent(event);
+                persistEventUseCase.persistSingleEvent(event);
+                icaoNotificationUseCase.notify(event.getIcao());
             } catch (DataIntegrityViolationException ex) {
                 log.warn("Data Integrity Violation", ex);
             }

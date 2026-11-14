@@ -10,7 +10,7 @@ import pl.gatomek.flightradar.eventsaver.adapter.in.rabbit.mapper.ToEventMapper;
 import pl.gatomek.flightradar.eventsaver.adapter.in.rabbit.model.AircraftLog;
 import pl.gatomek.flightradar.eventsaver.adapter.in.rabbit.model.AircraftNotification;
 import pl.gatomek.flightradar.eventsaver.application.domain.model.Event;
-import pl.gatomek.flightradar.eventsaver.application.port.in.SaveEventPort;
+import pl.gatomek.flightradar.eventsaver.application.port.in.SaveEventUseCase;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.ByteArrayInputStream;
@@ -28,11 +28,11 @@ import java.util.zip.GZIPInputStream;
 public class EventNotificationListener {
     private static final String GZIP = "gzip";
     private static final String RADAR_EVENT = "RADAR_EVENT";
-    private final SaveEventPort saveEventPort;
+    private final SaveEventUseCase saveEventUseCase;
     private final ObjectMapper objectMapper;
 
     //todo: in case of error redirect message to dlq
-    @RabbitListener(queues = RADAR_EVENT, concurrency = "1")
+    @RabbitListener(queues = RADAR_EVENT)
     public void receiveMessage(Message message) {
         MessageProperties messageProperties = message.getMessageProperties();
 
@@ -57,7 +57,7 @@ public class EventNotificationListener {
                         .map(log -> ToEventMapper.INSTANCE.toEvent(log, timestamp))
                         .toList();
 
-                saveEventPort.saveEvents(events);
+                saveEventUseCase.saveEvents(events);
                 return;
             }
 
